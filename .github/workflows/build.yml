@@ -3,14 +3,8 @@ name: Build EdenReligion
 on:
   push:
     branches: [ "main" ]
-    paths:
-      - "EdenReligion/**"
-      - ".github/workflows/build.yml"
   pull_request:
     branches: [ "main" ]
-    paths:
-      - "EdenReligion/**"
-      - ".github/workflows/build.yml"
   workflow_dispatch:
 
 permissions:
@@ -19,10 +13,6 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-
-    defaults:
-      run:
-        working-directory: EdenReligion
 
     steps:
       - name: Checkout repository
@@ -35,7 +25,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@017a9effdb900e5b5b2fddfb590a105619dca3c3
+        uses: gradle/actions/setup-gradle@v4
 
       - name: Build with Gradle
         run: gradle build
@@ -44,5 +34,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: EdenReligion-jar
-          path: EdenReligion/build/libs/*.jar
+          path: build/libs/*.jar
           if-no-files-found: error
